@@ -1,0 +1,334 @@
+export type Locale = "fr" | "en" | "es" | "ar";
+
+export type Direction = "ltr" | "rtl";
+
+export interface LanguageMeta {
+  code: Locale;
+  label: string;
+  name: string;
+  dir: Direction;
+  flag: string;
+}
+
+export const LANGUAGES: LanguageMeta[] = [
+  { code: "fr", label: "FR", name: "Français", dir: "ltr", flag: "🇫🇷" },
+  { code: "ar", label: "AR", name: "العربية", dir: "rtl", flag: "🇲🇦" },
+  { code: "en", label: "EN", name: "English", dir: "ltr", flag: "🇬🇧" },
+  { code: "es", label: "ES", name: "Español", dir: "ltr", flag: "🇪🇸" },
+];
+
+export interface Dictionary {
+  common: {
+    brandName: string;
+    tagline: string;
+    findTutor: string;
+    requestTutor: string;
+    becomeTutor: string;
+    login: string;
+    signup: string;
+    search: string;
+    searchPlaceholder: string;
+    searchAction: string;
+    searchCmd: string;
+    whatsappSupport: string;
+    contactUs: string;
+    contactAdvisor: string;
+    readArticle: string;
+    allArticles: string;
+    seeMore: string;
+    seeLess: string;
+    howItWorks: string;
+    backHome: string;
+    tryAgain: string;
+    reportIssue: string;
+    students: string;
+    tutors: string;
+    parents: string;
+    verifiedTutors: string;
+    lessonsGiven: string;
+    subjectsCovered: string;
+    citiesInMorocco: string;
+    avgRating: string;
+    perHour: string;
+    mad: string;
+    madMonth: string;
+    online: string;
+    home: string;
+    bothModes: string;
+    available: string;
+    hours: string;
+    close: string;
+    popular: string;
+    watchVideo: string;
+    ratingWord: string;
+    reviewsWord: string;
+    priceWord: string;
+    viewProfile: string;
+  };
+  nav: {
+    home: string;
+    howItWorks: string;
+    resources: string;
+    about: string;
+    contact: string;
+    studentGuide: string;
+    tutorGuide: string;
+    parentGuide: string;
+  };
+  megaMenu: {
+    studentTitle: string;
+    studentTagline: string;
+    studentLink1: string;
+    studentLink2: string;
+    studentLink3: string;
+    studentLink4: string;
+    studentLink5: string;
+    tutorTitle: string;
+    tutorTagline: string;
+    tutorLink1: string;
+    tutorLink2: string;
+    tutorLink3: string;
+    tutorLink4: string;
+    parentTitle: string;
+    parentTagline: string;
+    parentLink1: string;
+    parentLink2: string;
+    parentLink3: string;
+    parentLink4: string;
+    parentLink5: string;
+    guaranteeBadge: string;
+    guaranteeTitle: string;
+    guaranteeDesc: string;
+  };
+  hero: {
+    titlePrefix: string;
+    highlight: string;
+    titleSuffix: string;
+    description: string;
+    btnFind: string;
+    btnBecome: string;
+    statProfs: string;
+    statLessons: string;
+  };
+  subjectsSection: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    sub: string;
+    tutorsWord: string;
+    studentsWord: string;
+    showMore: string;
+    showLess: string;
+  };
+  testimonialsSection: {
+    eyebrow: string;
+    titlePrefix: string;
+    highlight: string;
+    sub: string;
+  };
+  audiencesSection: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    sub: string;
+  };
+  tutorsSection: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    sub: string;
+    statValidation: string;
+    statRevenue: string;
+    statCommission: string;
+    statPlanning: string;
+  };
+  audiences: {
+    studentKicker: string;
+    studentTitle: string;
+    studentBody: string;
+    studentCta: string;
+    studentBullets: string[];
+    tutorKicker: string;
+    tutorTitle: string;
+    tutorBody: string;
+    tutorCta: string;
+    tutorBullets: string[];
+    parentKicker: string;
+    parentTitle: string;
+    parentBody: string;
+    parentCta: string;
+    parentBullets: string[];
+  };
+  steps: {
+    studentEyebrow: string;
+    studentTitle: string;
+    studentHighlight: string;
+    studentSub: string;
+    studentList: Array<{ title: string; body: string }>;
+    tutorEyebrow: string;
+    tutorTitle: string;
+    tutorHighlight: string;
+    tutorSub: string;
+    tutorList: Array<{ title: string; body: string }>;
+    parentEyebrow: string;
+    parentTitle: string;
+    parentHighlight: string;
+    parentSub: string;
+    parentList: Array<{ title: string; body: string }>;
+  };
+  guarantees: {
+    g1Title: string;
+    g1Body: string;
+    g2Title: string;
+    g2Body: string;
+    g3Title: string;
+    g3Body: string;
+  };
+  faq: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    items: Array<{ q: string; a: string }>;
+    moreQuestions: string;
+    supportAnswerTime: string;
+    directWhatsapp: string;
+  };
+  contactForm: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    sub: string;
+    roleLabel: string;
+    roleStudent: string;
+    roleParent: string;
+    roleTutor: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    cityLabel: string;
+    subjectLabel: string;
+    messageLabel: string;
+    messagePlaceholder: string;
+    submitBtn: string;
+    successMessage: string;
+    errorMessage: string;
+  };
+  footer: {
+    tagline: string;
+    subjectsTitle: string;
+    homeCoursesTitle: string;
+    onlineCoursesTitle: string;
+    levelsTitle: string;
+    examsTitle: string;
+    officeAgadir: string;
+    marocAll: string;
+    copyright: string;
+    legalNotice: string;
+    privacy: string;
+    terms: string;
+    tutorInCity: string;
+    onlineSubject: string;
+    newsletterPlaceholder: string;
+    newsletterBtn: string;
+    newsletterSuccess: string;
+  };
+  notFound: {
+    statusBadge: string;
+    title: string;
+    description: string;
+    searchPlaceholder: string;
+    searchBtn: string;
+    btnHome: string;
+    btnWhatsapp: string;
+    btnContact: string;
+    popularPages: string;
+  };
+  errorState: {
+    statusBadge: string;
+    title: string;
+    description: string;
+    btnRetry: string;
+    btnHome: string;
+    btnReport: string;
+  };
+  aboutPage: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    sub: string;
+    btnFind: string;
+    btnBecome: string;
+    missionEyebrow: string;
+    missionTitle: string;
+    missionHighlight: string;
+    missionBody: string;
+    statPercent: string;
+    statPercentDesc: string;
+    valuesEyebrow: string;
+    valuesTitle: string;
+    valuesHighlight: string;
+    valuesSub: string;
+    valuesList: Array<{ title: string; body: string }>;
+    storyEyebrow: string;
+    storyTitle: string;
+    storyHighlight: string;
+    storySub: string;
+    timelineList: Array<{ year: string; title: string; body: string }>;
+    teamEyebrow: string;
+    teamTitle: string;
+    teamHighlight: string;
+    teamSub: string;
+  };
+  resourcesPage: {
+    eyebrow: string;
+    title: string;
+    highlight: string;
+    sub: string;
+    allArticles: string;
+    availableArticles: string;
+    minRead: string;
+    writtenBy: string;
+    relatedArticles: string;
+    shareArticle: string;
+  };
+  simulator: {
+    title: string;
+    sub: string;
+    hoursLabel: string;
+    priceLabel: string;
+    netLabel: string;
+    madPerMonth: string;
+    revenueDesc: string;
+  };
+  authPage: {
+    welcomeLogin: string;
+    welcomeSignup: string;
+    subLogin: string;
+    subSignup: string;
+    tabLogin: string;
+    tabSignup: string;
+    roleStudent: string;
+    roleTutor: string;
+    fullNameLabel: string;
+    fullNamePlaceholder: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    phoneLabel: string;
+    phonePlaceholder: string;
+    cityLabel: string;
+    subjectLabel: string;
+    passwordLabel: string;
+    passwordPlaceholder: string;
+    rememberMe: string;
+    forgotPassword: string;
+    btnSubmitLogin: string;
+    btnSubmitSignup: string;
+    noAccount: string;
+    haveAccount: string;
+    signupSuccessTitle: string;
+    signupSuccessDesc: string;
+  };
+}
