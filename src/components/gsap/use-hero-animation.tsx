@@ -1,3 +1,4 @@
+tsx
 "use client";
 
 import { useLayoutEffect } from "react";
@@ -27,11 +28,11 @@ export function useHeroAnimation({
     mobileButtonRef,
 }: HeroAnimationRefs) {
     useLayoutEffect(() => {
-        if (
-            !sectionRef.current ||
-            !heroRef.current ||
-            !imageRef.current
-        ) {
+        const section = sectionRef.current;
+        const hero = heroRef.current;
+        const image = imageRef.current;
+
+        if (!section || !hero || !image) {
             return;
         }
 
@@ -41,40 +42,81 @@ export function useHeroAnimation({
             "(prefers-reduced-motion: reduce)",
         ).matches;
 
-        if (reduceMotion) return;
+        if (reduceMotion) {
+            gsap.set(hero, {
+                clipPath: "inset(0% 0% 0% 0% round 40px)",
+                scale: 1,
+                opacity: 1,
+            });
 
-        const context = gsap.context(() => {
+            gsap.set(image, {
+                scale: 1,
+                filter: "blur(0px)",
+            });
+
+            return;
+        }
+
+        const contentElements = [
+            badgeRef.current,
+            titleRef.current,
+            descriptionRef.current,
+            buttonsRef.current,
+        ].filter(Boolean);
+
+        const ctx = gsap.context(() => {
             /*
-             * Animation initiale du Hero.
+             * ============================================================
+             * INITIAL STATES
+             * ============================================================
              */
+
+            gsap.set(hero, {
+                clipPath: "inset(102% 108% 102% 108% round 180px)",
+                scale: 0.94,
+                opacity: 0,
+            });
+
+            gsap.set(image, {
+                scale: 1.2,
+                filter: "blur(8px)",
+            });
+
+            if (contentElements.length > 0) {
+                gsap.set(contentElements, {
+                    y: 45,
+                });
+            }
+
+            if (mobileButtonRef.current) {
+                gsap.set(mobileButtonRef.current, {
+                    y: 35,
+                    xPercent: -50,
+                    opacity: 0,
+                });
+            }
+
+            /*
+             * ============================================================
+             * INTRO ANIMATION
+             * ============================================================
+             */
+
             const introTimeline = gsap.timeline({
                 defaults: {
                     ease: "power4.out",
                 },
             });
 
-            introTimeline.fromTo(
-                heroRef.current,
-                {
-                    clipPath:
-                        "inset(112% 118% 112% 118% round 180px)",
-                    scale: 0.94,
-                    opacity: 0,
-                },
-                {
-                    clipPath: "inset(0% 0% 0% 0% round 40px)",
-                    scale: 1,
-                    opacity: 1,
-                    duration: 2.35,
-                },
-            );
+            introTimeline.to(hero, {
+                clipPath: "inset(0% 0% 0% 0% round 40px)",
+                scale: 1,
+                opacity: 1,
+                duration: 2.35,
+            });
 
-            introTimeline.fromTo(
-                imageRef.current,
-                {
-                    scale: 1.2,
-                    filter: "blur(8px)",
-                },
+            introTimeline.to(
+                image,
                 {
                     scale: 1,
                     filter: "blur(0px)",
@@ -83,32 +125,21 @@ export function useHeroAnimation({
                 0,
             );
 
-            introTimeline.fromTo(
-                [
-                    badgeRef.current,
-                    titleRef.current,
-                    descriptionRef.current,
-                    buttonsRef.current,
-                ],
-                {
-                    y: 45,
-                },
-                {
-                    y: 0,
-                    duration: 4.85,
-                    stagger: 0.1,
-                },
-                0.55,
-            );
+            if (contentElements.length > 0) {
+                introTimeline.to(
+                    contentElements,
+                    {
+                        y: 0,
+                        duration: 4.85,
+                        stagger: 0.1,
+                    },
+                    0.55,
+                );
+            }
 
             if (mobileButtonRef.current) {
-                introTimeline.fromTo(
+                introTimeline.to(
                     mobileButtonRef.current,
-                    {
-                        y: 35,
-                        xPercent: -50,
-                        opacity: 0,
-                    },
                     {
                         y: 0,
                         xPercent: -50,
@@ -120,43 +151,41 @@ export function useHeroAnimation({
             }
 
             /*
-             * Animation inverse liée au scroll.
+             * ============================================================
+             * SCROLL ANIMATION
+             * ============================================================
              */
-            const createScrollAnimation = () => {
-                const scrollTimeline = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: sectionRef.current,
-                        start: "top top",
-                        end: "bottom top",
-                        scrub: 1.4,
-                        invalidateOnRefresh: true,
-                    },
-                });
 
-                scrollTimeline.fromTo(
-                    imageRef.current,
-                    {
-                        scale: 1,
-                        filter: "blur(0px)",
-                    },
-                    {
-                        scale: 1.2,
-                        filter: "blur(8px)",
-                        ease: "none",
-                    },
-                    0,
-                );
+            const scrollTimeline = gsap.timeline({
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: 1.4,
+                    invalidateOnRefresh: true,
+                    fastScrollEnd: true,
+                },
+            });
 
-                scrollTimeline.fromTo(
-                    [
-                        badgeRef.current,
-                        titleRef.current,
-                        descriptionRef.current,
-                        buttonsRef.current,
-                    ],
-                    {
-                        y: 0,
-                    },
+            /*
+             * IMAGE
+             */
+            scrollTimeline.to(
+                image,
+                {
+                    scale: 1.2,
+                    filter: "blur(8px)",
+                    ease: "none",
+                },
+                0,
+            );
+
+            /*
+             * TEXT CONTENT
+             */
+            if (contentElements.length > 0) {
+                scrollTimeline.to(
+                    contentElements,
                     {
                         y: 45,
                         ease: "none",
@@ -164,53 +193,58 @@ export function useHeroAnimation({
                     },
                     0,
                 );
+            }
 
-                if (mobileButtonRef.current) {
-                    scrollTimeline.fromTo(
-                        mobileButtonRef.current,
-                        {
-                            y: 0,
-                            xPercent: -50,
-                            opacity: 1,
-                        },
-                        {
-                            y: 35,
-                            xPercent: -50,
-                            opacity: 0,
-                            ease: "none",
-                        },
-                        0,
-                    );
-                }
-
-                scrollTimeline.fromTo(
-                    heroRef.current,
+            /*
+             * MOBILE BUTTON
+             */
+            if (mobileButtonRef.current) {
+                scrollTimeline.to(
+                    mobileButtonRef.current,
                     {
-                        clipPath: "inset(0% 0% 0% 0% round 40px)",
-                        scale: 1,
-                        opacity: 1,
-                    },
-                    {
-                        clipPath:
-                            "inset(112% 118% 112% 118% round 180px)",
-                        scale: 0.94,
+                        y: 35,
+                        xPercent: -50,
                         opacity: 0,
                         ease: "none",
                     },
                     0,
                 );
+            }
 
-                ScrollTrigger.refresh();
-            };
-
-            introTimeline.eventCallback(
-                "onComplete",
-                createScrollAnimation,
+            /*
+             * HERO CONTAINER
+             */
+            scrollTimeline.to(
+                hero,
+                {
+                    clipPath:
+                        "inset(112% 118% 112% 118% round 180px)",
+                    scale: 0.94,
+                    opacity: 0,
+                    ease: "none",
+                },
+                0,
             );
-        }, sectionRef);
+
+            /*
+             * ============================================================
+             * REFRESH AFTER EVERYTHING IS CREATED
+             * ============================================================
+             */
+
+            requestAnimationFrame(() => {
+                ScrollTrigger.refresh();
+            });
+        }, section);
+
+        /*
+         * ================================================================
+         * CLEANUP
+         * ================================================================
+         */
 
         return () => {
-            context.revert();
+            ctx.revert();
         };
     }, [
         sectionRef,
@@ -223,3 +257,6 @@ export function useHeroAnimation({
         mobileButtonRef,
     ]);
 }
+
+
+

@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep Turbopack scoped to this application when another lockfile exists higher up.
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [
       {

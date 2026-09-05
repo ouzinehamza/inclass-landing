@@ -646,13 +646,47 @@ export default function SiteHeader() {
         className="sticky top-2.5 z-50 w-full px-3 sm:px-6 lg:px-8"
       >
         {/* Floating Capsule Container */}
-        <div
-          className={`mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-full transition-all duration-300 ease-out ${
-            scrolled
-              ? "border border-black/[0.08] bg-cream/90 px-4 py-2 shadow-[0_14px_35px_-12px_rgba(0,0,0,0.12)] backdrop-blur-2xl dark:border-white/[0.12] dark:bg-ink-950/90 dark:shadow-[0_14px_35px_-12px_rgba(0,0,0,0.8)] sm:px-6 sm:py-2.5"
-              : "border border-black/[0.06] bg-cream/95 px-4 py-2.5 shadow-[0_8px_25px_-8px_rgba(0,0,0,0.06)] backdrop-blur-xl dark:border-white/[0.08] dark:bg-ink-900/95 dark:shadow-none sm:px-6 sm:py-3"
-          }`}
-        >
+<div
+  className={`
+    relative isolate overflow-hidden transform-gpu
+    mx-auto flex max-w-7xl items-center justify-between gap-3
+    rounded-full transition-all duration-300 ease-out
+
+    /* glass background + color tint (2 gradients stacked) */
+    bg-[image:linear-gradient(135deg,rgba(255,255,255,0.42)_0%,rgba(255,255,255,0.20)_28%,rgba(255,255,255,0.10)_55%,rgba(255,255,255,0.26)_100%),linear-gradient(120deg,rgba(125,211,252,0.16)_0%,rgba(196,181,253,0.14)_35%,rgba(249,168,212,0.12)_65%,rgba(253,224,71,0.10)_100%)]
+
+    /* backdrop blur/saturate/brightness/hue */
+    backdrop-blur-[30px] backdrop-saturate-[2.2] backdrop-brightness-[1.1] backdrop-hue-rotate-[2deg]
+
+    /* pseudo-element glow blobs (::before) */
+    before:content-[''] before:absolute before:inset-0 before:z-0 before:pointer-events-none
+    before:rounded-[inherit] before:mix-blend-screen
+    before:bg-[image:radial-gradient(ellipse_90%_130%_at_12%_-10%,rgba(255,255,255,0.52),transparent_48%),radial-gradient(ellipse_70%_100%_at_90%_100%,rgba(196,181,253,0.35),transparent_55%),radial-gradient(ellipse_70%_100%_at_10%_100%,rgba(125,211,252,0.30),transparent_55%),radial-gradient(ellipse_60%_90%_at_60%_0%,rgba(249,168,212,0.25),transparent_55%)]
+
+    /* specular sweep (::after) */
+    after:content-[''] after:absolute after:-top-[80%] after:-left-[65%] after:w-[45%] after:h-[260%]
+    after:z-10 after:pointer-events-none after:rounded-full after:blur-[12px] after:rotate-[14deg] after:opacity-0
+    after:bg-[image:linear-gradient(105deg,transparent_0%,rgba(125,211,252,0.10)_30%,rgba(255,255,255,0.70)_48%,rgba(249,168,212,0.18)_58%,transparent_70%)]
+    after:animate-ios-sweep
+
+    /* content stays above the glow layers */
+    [&>*]:relative [&>*]:z-[3]
+
+    /* hover */
+    hover:border-white/[0.62]
+
+    /* dark mode */
+    dark:bg-[image:linear-gradient(135deg,rgba(255,255,255,0.15)_0%,rgba(255,255,255,0.075)_35%,rgba(255,255,255,0.035)_65%,rgba(255,255,255,0.10)_100%),linear-gradient(120deg,rgba(99,102,241,0.22)_0%,rgba(168,85,247,0.18)_35%,rgba(236,72,153,0.16)_65%,rgba(56,189,248,0.18)_100%)]
+    dark:backdrop-blur-[32px] dark:backdrop-saturate-[2.2] dark:backdrop-brightness-[1.18] dark:border-white/[0.20]
+
+    /* scroll state (dynamic) */
+    ${
+      scrolled
+        ? "border border-black/[0.08] px-4 py-2 shadow-[0_14px_35px_-22px_rgba(99,102,241,0.20),0_8px_24px_-12px_rgba(236,72,153,0.12),inset_0_1px_0_rgba(255,255,255,0.82),inset_0_-1px_0_rgba(255,255,255,0.14)] sm:px-6 sm:py-2.5"
+        : "border border-black/[0.06] px-4 py-2.5 shadow-[0_8px_25px_-8px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.80),inset_0_-1px_0_rgba(255,255,255,0.12)] sm:px-6 sm:py-3"
+    }
+  `}
+>
           {/* Left Brand Logo */}
           <Link href="/" onClick={closeAll} className="nav-anim-item group relative shrink-0">
             <Magnetic strength={0.15}>
