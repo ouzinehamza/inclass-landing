@@ -109,6 +109,7 @@ export interface Dictionary {
     btnBecome: string;
     statProfs: string;
     statLessons: string;
+    trustList: string[];
   };
   subjectsSection: {
     eyebrow: string;
@@ -293,6 +294,48 @@ export interface Dictionary {
     writtenBy: string;
     relatedArticles: string;
     shareArticle: string;
+    searchPlaceholder: string;
+    noResults: string;
+    noContentInLanguage: string;
+    typeOfResource: string;
+    typeAll: string;
+    resourceTypeLabel: string;
+    keyPoints: string;
+    contents: string;
+    pageLabel: string;
+    partOne: string;
+    sectionOne: string;
+    exerciseInstruction: string;
+    answerHere: string;
+    practiceArea: string;
+    yourAnswer: string;
+    showSolution: string;
+    hideSolution: string;
+    mediaUnavailable: string;
+    playVideo: string;
+    listenAudio: string;
+    comments: string;
+    likes: string;
+    types: {
+      article: string;
+      guide: string;
+      exercise: string;
+      notes: string;
+      exercise_corrige: string;
+      mind_map: string;
+      video: string;
+      audio: string;
+    };
+    typeDescs: {
+      article: string;
+      guide: string;
+      exercise: string;
+      notes: string;
+      exercise_corrige: string;
+      mind_map: string;
+      video: string;
+      audio: string;
+    };
   };
   simulator: {
     title: string;

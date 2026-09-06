@@ -39,7 +39,7 @@ export default function SearchBar({
   return (
     <div className={compact ? "" : "w-full"}>
       <div
-        className={`mb-3 inline-flex rounded-full p-1 ${
+        className={`mb-3 grid grid-cols-2 gap-1 rounded-full p-1 sm:inline-flex sm:gap-0 ${
           onDark ? "bg-white/12 backdrop-blur-md" : "bg-ink/5"
         }`}
       >
@@ -51,9 +51,9 @@ export default function SearchBar({
               key={r.id}
               type="button"
               onClick={() => setRole(r.id)}
-              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+              className={`inline-flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
                 active
-                  ? `${r.cls} shadow-card`
+                  ? `${r.cls}`
                   : onDark
                     ? "text-white/75 hover:text-white"
                     : "text-ink-soft hover:text-ink"
@@ -69,7 +69,7 @@ export default function SearchBar({
       <form
         onSubmit={submit}
         className={`flex flex-col gap-2 rounded-[28px] border bg-white p-2 sm:flex-row sm:items-center sm:rounded-full dark:border-white/10 dark:bg-ink-800 ${
-          onDark ? "border-white/20 shadow-pop" : "border-line shadow-card"
+          onDark ? "border-white/20" : "border-line"
         }`}
       >
         <label className="flex flex-1 items-center gap-2 rounded-full px-4 py-2.5">

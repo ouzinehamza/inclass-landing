@@ -85,7 +85,7 @@ export default function HowItWorksView() {
         <div className="flex flex-wrap justify-center gap-3">
           <Link
             href="/comment-ca-marche/eleves"
-            className="group inline-flex h-12 items-center gap-2 rounded-full bg-student-600 px-6 font-bold text-student-50 transition-transform hover:scale-[1.02]"
+            className="btn-duo group inline-flex h-12 items-center gap-2 rounded-2xl px-6 font-extrabold"
           >
             <RollingText text={dict.nav.studentGuide} />
             <ArrowRight className={`h-4 w-4 ${isRTL ? "rotate-180" : ""}`} />
@@ -131,25 +131,31 @@ export default function HowItWorksView() {
             highlight="avantages"
           />
 
-          <div data-anim="up" className="mt-12 overflow-hidden rounded-[32px] border border-line bg-white shadow-sm dark:border-white/10 dark:bg-ink-800">
-            <div className="grid grid-cols-3 border-b border-line bg-sand/60 p-5 text-sm font-bold text-ink dark:border-white/10 dark:bg-ink-900 dark:text-white">
+          <div data-anim="up" className="mt-12 overflow-hidden rounded-[32px] border border-line bg-white dark:border-white/10 dark:bg-ink-800">
+            <div className="grid grid-cols-3 border-b border-line bg-sand/60 p-4 text-sm font-bold text-ink dark:border-white/10 dark:bg-ink-900 dark:text-white sm:p-5">
               <div>Critères</div>
               <div className="flex items-center gap-2 text-student-700 dark:text-student-400">
-                <Laptop className="h-4 w-4" />
+                <Laptop className="h-4 w-4 shrink-0" />
                 <span>{dict.common.online}</span>
               </div>
               <div className="flex items-center gap-2 text-tutor-700 dark:text-tutor-400">
-                <HomeIcon className="h-4 w-4" />
+                <HomeIcon className="h-4 w-4 shrink-0" />
                 <span>{dict.common.home}</span>
               </div>
             </div>
 
             <div className="divide-y divide-line dark:divide-white/10">
               {comparisons.map((row) => (
-                <div key={row.feature} className="grid grid-cols-3 p-5 text-sm">
+                <div key={row.feature} className="grid grid-cols-1 gap-2 p-4 text-sm sm:grid-cols-3 sm:gap-5 sm:p-5">
                   <div className="font-bold text-ink dark:text-white">{row.feature}</div>
-                  <div className="text-ink-soft dark:text-white/70">{row.online}</div>
-                  <div className="text-ink-soft dark:text-white/70">{row.home}</div>
+                  <div className="flex items-start gap-2 text-ink-soft dark:text-white/70">
+                    <Laptop className="mt-0.5 h-4 w-4 shrink-0 text-student-500 sm:hidden" />
+                    <span>{row.online}</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-ink-soft dark:text-white/70">
+                    <HomeIcon className="mt-0.5 h-4 w-4 shrink-0 text-tutor-500 sm:hidden" />
+                    <span>{row.home}</span>
+                  </div>
                 </div>
               ))}
             </div>

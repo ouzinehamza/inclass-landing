@@ -10,6 +10,48 @@ import type { SubjectCard } from "@/lib/data";
 import { useI18n } from "@/i18n";
 import { getLocalizedSubject } from "@/lib/subject-translations";
 
+const CATEGORY_ACCENT: Record<
+  string,
+  { chip: string; hoverBorder: string; icon: string; text: string }
+> = {
+  Scientifique: {
+    chip: "bg-tutor-100 text-tutor-700 dark:bg-tutor-950/70 dark:text-tutor-300",
+    hoverBorder: "hover:border-tutor-300 dark:hover:border-tutor-500/50",
+    icon: "text-tutor-600 dark:text-tutor-300",
+    text: "text-tutor-700 dark:text-tutor-300",
+  },
+  Langues: {
+    chip: "bg-student-100 text-student-700 dark:bg-student-950/70 dark:text-student-300",
+    hoverBorder: "hover:border-student-300 dark:hover:border-student-500/50",
+    icon: "text-student-600 dark:text-student-300",
+    text: "text-student-700 dark:text-student-300",
+  },
+  "Numérique": {
+    chip: "bg-parent-100 text-parent-700 dark:bg-parent-950/70 dark:text-parent-300",
+    hoverBorder: "hover:border-parent-300 dark:hover:border-parent-500/50",
+    icon: "text-parent-600 dark:text-parent-300",
+    text: "text-parent-700 dark:text-parent-300",
+  },
+  "Scolaire": {
+    chip: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/70 dark:text-emerald-300",
+    hoverBorder: "hover:border-emerald-300 dark:hover:border-emerald-500/50",
+    icon: "text-emerald-600 dark:text-emerald-300",
+    text: "text-emerald-700 dark:text-emerald-300",
+  },
+  "Supérieur": {
+    chip: "bg-sky-100 text-sky-700 dark:bg-sky-950/70 dark:text-sky-300",
+    hoverBorder: "hover:border-sky-300 dark:hover:border-sky-500/50",
+    icon: "text-sky-600 dark:text-sky-300",
+    text: "text-sky-700 dark:text-sky-300",
+  },
+  "Littéraire": {
+    chip: "bg-rose-100 text-rose-700 dark:bg-rose-950/70 dark:text-rose-300",
+    hoverBorder: "hover:border-rose-300 dark:hover:border-rose-500/50",
+    icon: "text-rose-600 dark:text-rose-300",
+    text: "text-rose-700 dark:text-rose-300",
+  },
+};
+
 export default function SubjectGrid({
   items,
 }: {
@@ -35,12 +77,15 @@ export default function SubjectGrid({
           lg:gap-5
         "
       >
-        {visible.map((subject) => (
+        {visible.map((subject) => {
+          const accent =
+            CATEGORY_ACCENT[subject.category] ?? CATEGORY_ACCENT["Scolaire"];
+          return (
           <Link
             key={subject.slug}
             data-anim-child
             href={`/contact?subject=${encodeURIComponent(subject.name)}`}
-            className="
+            className={`
               group
               relative
               flex
@@ -51,6 +96,7 @@ export default function SubjectGrid({
               overflow-hidden
               rounded-[22px]
               border
+              border-line/80
               bg-white
               px-4
               py-6
@@ -59,10 +105,12 @@ export default function SubjectGrid({
               duration-300
               hover:-translate-y-1.5
               hover:border-ink/10
-              hover:shadow-[0_16px_40px_rgba(0,0,0,0.09)]
+              hover:bg-sand/30
               dark:bg-ink-800
               dark:hover:border-white/20
-              dark:hover:shadow-[0_16px_40px_rgba(0,0,0,0.28)]
+              dark:hover:bg-ink-700/40
+              ${accent.hoverBorder}
+              
 
               sm:min-h-[130px]
               sm:flex-row
@@ -77,49 +125,61 @@ export default function SubjectGrid({
               lg:gap-6
               lg:px-6
               lg:py-6
-            "
+            `}
           >
             {/* ICON */}
             <span
-              className="
-                flex
-                h-[76px]
-                w-[76px]
+              className={`
+                grid
+                h-[68px]
+                w-[68px]
                 shrink-0
-                items-center
-                justify-center
-                bg-transparent
+                place-items-center
+                rounded-2xl
+                border
+                border-line/80
+                bg-white
+                transition-all
+                duration-300
+                group-hover:scale-105
+                dark:border-white/10
+                dark:bg-white/[0.04]
 
-                sm:h-[82px]
-                sm:w-[82px]
+                sm:h-[70px]
+                sm:w-[70px]
 
-                lg:h-[92px]
-                lg:w-[92px]
-              "
+                lg:h-20
+                lg:w-20
+              `}
             >
               <SubjectIcon
                 name={subject.icon}
-                className="
-                  h-14
-                  w-14
+                className={`
+                  h-11
+                  w-11
                   shrink-0
-                  text-ink
                   transition-all
                   duration-300
                   group-hover:scale-110
-                  dark:text-white
+                  ${accent.icon}
 
-                  sm:h-16
-                  sm:w-16
+                  sm:h-12
+                  sm:w-12
 
-                  lg:h-[72px]
-                  lg:w-[72px]
-                "
+                  lg:h-14
+                  lg:w-14
+                `}
               />
             </span>
 
             {/* Subject Info */}
             <span className="min-w-0 max-w-full flex-1">
+              <span
+                className={`mb-1.5 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider ${accent.chip}`}
+              >
+                {subject.category}
+              </span>
+
               <span
                 className="
                   block
@@ -139,20 +199,19 @@ export default function SubjectGrid({
               </span>
 
               <span
-                className="
+                className={`
                   mt-1
                   block
                   truncate
                   text-[11px]
-                  font-medium
+                  font-semibold
                   leading-relaxed
-                  text-ink-soft
-                  dark:text-white/55
+                  ${accent.text}
 
                   sm:text-[13px]
 
                   lg:text-[14px]
-                "
+                `}
               >
                 <RollingNumber targetNumber={subject.tutorsCount.toLocaleString("fr-MA")} height={18} /> {dict.subjectsSection.tutorsWord} ·{" "}
                 <RollingNumber targetNumber={subject.learners.toLocaleString("fr-MA")} height={18} /> {dict.subjectsSection.studentsWord}
@@ -212,7 +271,8 @@ export default function SubjectGrid({
               />
             </span>
           </Link>
-        ))}
+          );
+        })}
       </div>
 
       {/* Show More / Less */}
@@ -235,12 +295,12 @@ export default function SubjectGrid({
               text-sm
               font-bold
               text-ink
-              shadow-sm
+             
               transition-all
               duration-200
               hover:-translate-y-0.5
               hover:bg-sand
-              hover:shadow-md
+             
               dark:border-white/15
               dark:bg-white/[0.06]
               dark:text-white

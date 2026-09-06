@@ -11,7 +11,7 @@ type Params = Promise<{ slug: string }>;
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticle(slug);
-  if (!article) return { title: "Article introuvable" };
+  if (!article) return { title: "Article not found" };
   return { title: article.title, description: article.excerpt };
 }
 
@@ -29,5 +29,5 @@ export default async function ArticlePage({ params }: { params: Params }) {
     .filter((a) => a.slug !== article.slug)
     .slice(0, 3);
 
-  return <ResourceDetailView article={article} others={others} />;
+  return <ResourceDetailView article={article} others={others} basePath="/resources" />;
 }

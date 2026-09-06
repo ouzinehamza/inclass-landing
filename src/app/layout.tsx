@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
-import { Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import SiteHeader, { ThemeProvider } from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import ScrollFX from "@/components/scroll-fx";
 import { I18nProvider } from "@/i18n";
+import { getResourceLocale } from "@/lib/locale";
 
 const instagramSansScript = localFont({
   src: [
@@ -52,18 +52,6 @@ const elMessiri = localFont({
   display: "swap",
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-jakarta",
-  display: "swap",
-});
-
-const caveat = Caveat({
-  subsets: ["latin"],
-  variable: "--font-caveat",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://inclass.app"),
   title: {
@@ -81,11 +69,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const locale = await getResourceLocale();
   return (
     <html
-      lang="fr"
-      className={`${instagramSansScript.variable} ${jakarta.variable} ${caveat.variable} ${elMessiri.variable}`}
+      lang={locale}
+      dir={locale === "ar" ? "rtl" : "ltr"}
+      className={`${instagramSansScript.variable} ${elMessiri.variable}`}
       suppressHydrationWarning
     >
       <body className="bg-cream text-ink antialiased transition-colors duration-200 dark:bg-ink-900 dark:text-white">
@@ -120,7 +110,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
         <ThemeProvider>
-          <I18nProvider>
+          <I18nProvider defaultLocale={locale}>
             <ScrollFX />
             <SiteHeader />
             <main>{children}</main>

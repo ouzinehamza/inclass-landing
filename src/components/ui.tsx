@@ -49,15 +49,15 @@ export function Btn({
     md: "h-12 px-6 text-[15px]",
     lg: "h-14 px-8 text-base",
   };
-  const variants = {
-    solid: TONE_SOLID[tone],
-    outline: `border-2 bg-transparent ${TONE_OUTLINE[tone]}`,
-    soft: TONE_SOFT[tone],
+  const variants: Record<typeof variant, string> = {
+    solid: "btn-duo",
+    outline: "btn-duo btn-duo-white",
+    soft: "btn-duo btn-duo-white",
   };
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 active:scale-[0.98] ${sizes[size]} ${variants[variant]} ${className}`}
+      className={`group inline-flex items-center justify-center gap-2 rounded-2xl font-extrabold transition-all duration-200 active:scale-[0.98] ${sizes[size]} ${variants[variant]} ${className}`}
     >
       {typeof children === "string" ? <RollingText text={children} /> : children}
       {arrow ? (
@@ -86,6 +86,7 @@ export function Eyebrow({
     <span
       className={`inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em] font-brand ${tones[tone]} ${className}`}
     >
+      <span className="h-1.5 w-1.5 rounded-full bg-current opacity-80" aria-hidden="true" />
       {children}
     </span>
   );
@@ -125,7 +126,7 @@ export function SectionHead({
       ) : null}
       <h2
         data-anim="up"
-        className="font-display text-[clamp(1.9rem,4.4vw,3.1rem)] font-extrabold leading-[1.06] text-ink dark:text-white"
+        className="font-display text-[clamp(1.9rem,4.4vw,3.1rem)] font-extrabold leading-[1.06] tracking-[-0.02em] text-ink dark:text-white"
       >
         {title}
         {highlight ? (

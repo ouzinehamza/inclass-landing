@@ -8,25 +8,32 @@ import type { ResourceItem } from "@/lib/article-types";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Ressources & conseils pédagogiques",
+  title: "Resources & guides",
   description:
-    "Guides de révision, orientation, conseils aux parents et bonnes pratiques pour les professeurs : le blog d'INCLASS.",
+    "Study guides, exam strategies, orientation advice and teaching best practices — the INCLASS resources blog.",
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function ResourcesPage({ searchParams }: { searchParams: SearchParams }) {
   const params = await searchParams;
-  const raw = params.categorie;
+  const rawCat = params.categorie ?? params.category;
   const rawType = params.type ?? params.kind;
-  const category = (Array.isArray(raw) ? raw[0] : raw) ?? "";
+  const category = (Array.isArray(rawCat) ? rawCat[0] : rawCat) ?? "";
   const selectedType = (Array.isArray(rawType) ? rawType[0] : rawType) ?? "";
   const typeKey = normalizeResourceType(selectedType);
   const locale = await getResourceLocale();
 
-  // Server-side language filter first; the `language` field is the source of truth.
-  const all = await getArticles(undefined, locale);
-  const list = all.filter((a: ResourceItem) => {
+  let articles: ResourceItem[] = [];
+  let error = false;
+  try {
+    // Server-side language filter first; the `language` field is the source of truth.
+    articles = await getArticles(undefined, locale);
+  } catch {
+    error = true;
+  }
+
+  const list = articles.filter((a) => {
     if (category && a.category !== category) return false;
     if (selectedType && a.resourceType !== typeKey) return false;
     return true;
@@ -38,6 +45,8 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Se
       initialLocale={locale}
       selectedCategory={category}
       selectedType={selectedType ? typeKey : ""}
+      basePath="/resources"
+      initialError={error && articles.length === 0}
     />
   );
 }
